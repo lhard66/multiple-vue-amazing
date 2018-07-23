@@ -134,7 +134,7 @@ exports.htmlPlugin = function() {
       filename: filename + '.html', // 文件名称
       chunks: ['manifest', splitChunks, filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
       inject: true,
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'manual'
     }
     if (process.env.NODE_ENV === 'production') {
       conf = merge(conf, {
@@ -143,7 +143,6 @@ exports.htmlPlugin = function() {
           collapseWhitespace: true,
           removeAttributeQuotes: true
         },
-        chunksSortMode: 'dependency'
       })
     }
     arr.push(new HtmlWebpackPlugin(conf));
