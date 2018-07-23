@@ -108,14 +108,41 @@ exports.createNotifierCallback = () => {
 
 // 多入口配置
 exports.entries = function() {
-  var entryFiles = glob.sync(SRC_PATH + '/*/main.js');
+  // 根据需要可增加配置js筛选规则
+  var entryFiles = glob.sync(SRC_PATH + '/*/*.js');
   var map = {};
   entryFiles.forEach(filePath => {
-    var filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+    var filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
     map[filename] = filePath;
   });
-  console.log('map', map);
+  console.log('map:', map);
   return map;
 }
 
 // 多页面输出配置
+exports.htmlPlugin = function() {
+  let entryHtml = glob.sync(SRC_PATH + '/*/*.html');
+  let arr = [];
+  entryHtml.forEach(filePath => {
+    let filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+    let conf = {
+      template: filePath, // 模板来源
+      filename: filename + '.html', // 文件名称
+      chunks: ['manifest', 'vendor', filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+      inject: true
+    }
+    if (process.env.NODE_ENV === 'production') {
+      conf = merge(conf, {
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true
+        },
+        chunksSortMode: 'dependency'
+      })
+    }
+    arr.push(new HtmlWebpackPlugin(conf));
+  })
+  console.log('arr:', arr);
+  return arr;
+}
