@@ -121,16 +121,20 @@ exports.entries = function() {
 
 // 多页面输出配置
 exports.htmlPlugin = function() {
-  let entryHtml = glob.sync(SRC_PATH + '/*/*.html');
-  let arr = [];
+  var entryHtml = glob.sync(SRC_PATH + '/*/*.html');
+  var arr = [];
+  // const chunkOrder = ['manifest', 'vendor', 'vendor-login', 'index', 'login'];
   entryHtml.forEach(filePath => {
     let filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
     // console.log('chunks:', ['manifest', 'vendor', filename]);
-    let conf = {
+    var splitChunks = 'vendor';
+    if (filename === 'login') splitChunks = 'vendor-login';
+    var conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称
-      chunks: ['manifest', 'vendor', filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
-      inject: true
+      chunks: ['manifest', splitChunks, filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+      inject: true,
+      chunksSortMode: 'dependency'
     }
     if (process.env.NODE_ENV === 'production') {
       conf = merge(conf, {
