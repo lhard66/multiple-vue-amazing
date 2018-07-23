@@ -115,7 +115,7 @@ exports.entries = function() {
     var filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
     map[filename] = filePath;
   });
-  console.log('map:', map);
+  // console.log('map:', map);
   return map;
 }
 
@@ -125,7 +125,7 @@ exports.htmlPlugin = function() {
   let arr = [];
   entryHtml.forEach(filePath => {
     let filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
-    console.log('chunks:', ['manifest', 'vendor', filename]);
+    // console.log('chunks:', ['manifest', 'vendor', filename]);
     let conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称
@@ -144,6 +144,6 @@ exports.htmlPlugin = function() {
     }
     arr.push(new HtmlWebpackPlugin(conf));
   })
-  console.log('arr:', arr);
+  // console.log('arr:', arr);
   return arr;
 }
