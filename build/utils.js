@@ -8,8 +8,7 @@ var glob = require('glob')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var merge = require('webpack-merge')
 
-var CORE_PATH = path.resolve(__dirname, '../src/core')
-var LOGIN_PATH = path.resolve(__dirname, '../src/login')
+var SRC_PATH = path.resolve(__dirname, '../src')
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -107,3 +106,16 @@ exports.createNotifierCallback = () => {
   }
 }
 
+// 多入口配置
+exports.entries = function() {
+  var entryFiles = glob.sync(SRC_PATH + '/*/main.js');
+  var map = {};
+  entryFiles.forEach(filePath => {
+    var filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+    map[filename] = filePath;
+  });
+  console.log('map', map);
+  return map;
+}
+
+// 多页面输出配置
