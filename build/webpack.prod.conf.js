@@ -92,6 +92,32 @@ const webpackConfig = merge(baseWebpackConfig, {
         )
       }
     }),
+    // vendor 分离，只有登陆才有iview
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor-index',
+    //   chunks: ['vendor'],
+    //   minChunks: function(module) {
+    //     return (
+    //       module.resource &&
+    //       /\.js$/.test(module.resource) &&
+    //       module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+    //       module.resource.indexOf('element-ui') !== -1
+    //     )
+    //   }
+    // }),
+    // 只拆分vendor中，登陆模块需要的，打包
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor-login',
+      chunks: ['vendor'],
+      minChunks: function(module) {
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+          module.resource.indexOf('iview') !== -1
+        )
+      }
+    }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
@@ -101,6 +127,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     // This instance extracts shared chunks from code splitted chunks and bundles them
     // in a separate chunk, similar to the vendor chunk
     // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
+    // minChunks 设定为数字（大于等于2），指定共用模块被多少个 chunk 使用才能被合并。
+    // https://github.com/creeperyang/blog/issues/37
     new webpack.optimize.CommonsChunkPlugin({
       name: 'app',
       async: 'vendor-async',
