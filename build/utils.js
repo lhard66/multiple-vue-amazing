@@ -4,6 +4,13 @@ const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
 
+var glob = require('glob')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var merge = require('webpack-merge')
+
+var CORE_PATH = path.resolve(__dirname, '../src/core')
+var LOGIN_PATH = path.resolve(__dirname, '../src/login')
+
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
@@ -99,3 +106,4 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+
