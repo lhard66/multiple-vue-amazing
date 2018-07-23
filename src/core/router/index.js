@@ -8,7 +8,12 @@ export default new Router({
     {
       path: '/',
       name: '首页',
-      component: () => import('@core/views/index')
+      redirect: '/home'
+    },
+    {
+      path: '/home',
+      name: '首页',
+      component: () => import('@core/views/index/index.vue')
     }
   ]
 })

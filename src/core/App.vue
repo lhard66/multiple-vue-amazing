@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div>
+    <span>this is index</span>
     <router-view/>
   </div>
 </template>
@@ -9,7 +10,3 @@ export default {
   name: 'App'
 }
 </script>
-
-<style>
-
-</style>

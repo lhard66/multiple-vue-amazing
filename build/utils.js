@@ -125,6 +125,7 @@ exports.htmlPlugin = function() {
   let arr = [];
   entryHtml.forEach(filePath => {
     let filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+    console.log('chunks:', ['manifest', 'vendor', filename]);
     let conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称
