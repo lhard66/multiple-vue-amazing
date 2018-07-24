@@ -117,6 +117,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           (
             module.resource.indexOf('vue.esm') !== -1 ||
             module.resource.indexOf('core-js') !== -1 ||
+            module.resource.indexOf('babel-runtime') !== -1 ||
             module.resource.indexOf('vue-loader') !== -1
           )
         )
