@@ -129,6 +129,7 @@ exports.htmlPlugin = function() {
     // console.log('chunks:', ['manifest', 'vendor', filename]);
     var splitChunks = 'vendor';
     if (filename === 'login') splitChunks = 'vendor-login';
+    else if (filename === 'admin') splitChunks = null;
     var conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称

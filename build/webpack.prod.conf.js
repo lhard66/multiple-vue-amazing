@@ -105,7 +105,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     //     )
     //   }
     // }),
-    // 只拆分vendor中，登陆模块需要的，打包
+    // 只拆分vendor中，登陆模块需要的，打包。有iview模块的才打包。
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor-login',
       chunks: ['vendor'],
