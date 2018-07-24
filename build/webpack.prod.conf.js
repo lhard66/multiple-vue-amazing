@@ -105,6 +105,23 @@ const webpackConfig = merge(baseWebpackConfig, {
     //     )
     //   }
     // }),
+    // 超级管理员登陆模块，所有模块共用模块，只有vue
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor-common',
+      chunks: ['vendor'],
+      minChunks: function(module) {
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+          (
+            module.resource.indexOf('vue.esm') !== -1 ||
+            module.resource.indexOf('core-js') !== -1 ||
+            module.resource.indexOf('vue-loader') !== -1
+          )
+        )
+      }
+    }),
     // 只拆分vendor中，登陆模块需要的，打包。有iview模块的才打包。
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor-login',
