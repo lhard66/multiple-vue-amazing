@@ -127,13 +127,14 @@ exports.htmlPlugin = function() {
   entryHtml.forEach(filePath => {
     let filename = filePath.slice(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
     // console.log('chunks:', ['manifest', 'vendor', filename]);
-    var splitChunks = 'vendor';
-    if (filename === 'login') splitChunks = 'vendor-login';
-    else if (filename === 'admin') splitChunks = null;
+    // var splitChunks = 'vendor';
+    // if (filename === 'index') splitChunks = 'index';
+    // else if (filename === '') splitChunks = 'login';
+    // else if (filename === 'admin') splitChunks = null;
     var conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称
-      chunks: ['manifest', 'vendor-common', splitChunks, filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+      chunks: ['manifest', 'vendor', filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
       inject: true,
       chunksSortMode: 'manual'
     }

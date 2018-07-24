@@ -32,15 +32,15 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false
-        }
-      },
-      sourceMap: config.build.productionSourceMap,
-      parallel: true
-    }),
+    // new UglifyJsPlugin({
+    //   uglifyOptions: {
+    //     compress: {
+    //       warnings: false
+    //     }
+    //   },
+    //   sourceMap: config.build.productionSourceMap,
+    //   parallel: true
+    // }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
@@ -81,16 +81,17 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks (module) {
-        // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0
-        )
-      }
+      minChunks: 3
+      // minChunks (module) {
+      //   // any required modules inside node_modules are extracted to vendor
+      //   return (
+      //     module.resource &&
+      //     /\.js$/.test(module.resource) &&
+      //     module.resource.indexOf(
+      //       path.join(__dirname, '../node_modules')
+      //     ) === 0
+      //   )
+      // }
     }),
     // vendor 分离，只有登陆才有iview
     // new webpack.optimize.CommonsChunkPlugin({
@@ -106,36 +107,41 @@ const webpackConfig = merge(baseWebpackConfig, {
     //   }
     // }),
     // 超级管理员登陆模块，所有模块共用模块，只有vue
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor-common',
-      chunks: ['vendor'],
-      minChunks: function(module) {
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
-          (
-            module.resource.indexOf('vue.esm') !== -1 ||
-            module.resource.indexOf('core-js') !== -1 ||
-            module.resource.indexOf('babel-runtime') !== -1 ||
-            module.resource.indexOf('vue-loader') !== -1
-          )
-        )
-      }
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor-admin',
+    //   chunks: ['vendor'],
+    //   minChunks: function(module) {
+    //     return (
+    //       module.resource &&
+    //       /\.js$/.test(module.resource) &&
+    //       module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+    //       && (
+    //         module.resource.indexOf('vue.esm') !== -1 ||
+    //         module.resource.indexOf('vue-loader') !== -1 ||
+    //         module.resource.indexOf('core-js') !== -1 ||
+    //         module.resource.indexOf('deepmerge') !== -1 ||
+    //         module.resource.indexOf('babel-runtime') !== -1 ||
+    //         module.resource.indexOf('babel-helper-vue-jsx-merge-props') !== -1 ||
+    //         module.resource.indexOf('normalize-wheel') !== -1 ||
+    //         module.resource.indexOf('throttle') !== -1 ||
+    //         module.resource.indexOf('async-validator') !== -1
+    //       )
+    //     )
+    //   }
+    // }),
     // 只拆分vendor中，登陆模块需要的，打包。有iview模块的才打包。
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor-login',
-      chunks: ['vendor'],
-      minChunks: function(module) {
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
-          module.resource.indexOf('iview') !== -1
-        )
-      }
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor-login',
+    //   chunks: ['vendor'],
+    //   minChunks: function(module) {
+    //     return (
+    //       module.resource &&
+    //       /\.js$/.test(module.resource) &&
+    //       module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+    //       module.resource.indexOf('iview') !== -1
+    //     )
+    //   }
+    // }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
