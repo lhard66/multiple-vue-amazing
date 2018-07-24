@@ -133,7 +133,7 @@ exports.htmlPlugin = function() {
     var conf = {
       template: filePath, // 模板来源
       filename: filename + '.html', // 文件名称
-      chunks: ['manifest', splitChunks, filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+      chunks: ['manifest', 'vendor-common', splitChunks, filename], // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
       inject: true,
       chunksSortMode: 'manual'
     }
